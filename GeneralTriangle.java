@@ -19,9 +19,9 @@ public interface GeneralTriangle {
 	//
 	// Possible triangle methods will contain logic to determine if
 	// proposed triangle is possible.
-	public boolean isPossibleTriangle(Point sideA, Point sideB, Point sideC); // Triangle Inequality Theorem.
-	public boolean isPossibleTriangle(Angle angleA, Angle angleB, Angle angleC); // Equals 180 degrees.
-	// (POSSIBLE) UPDATE: isPossibleTriangle(...) combining known side and angle information.
+	public boolean isValidTriangle(Point sideA, Point sideB, Point sideC); // Triangle Inequality Theorem.
+	public boolean isValidTriangle(Angle angleA, Angle angleB, Angle angleC); // Equals 180 degrees.
+	// (POSSIBLE) UPDATE: isValidTriangle(...) combining known side and angle information.
 
 
 	//

@@ -20,13 +20,13 @@ public class TriangleTest {
 	// END TESTS: public Triangle getType();
 
 	// UPDATE SIDE VS POINTS
-	// isPossibleTriangle(Line sideA, Line sideB, Line sideC) test verify
+	// isValidTriangle(Line sideA, Line sideB, Line sideC) test verify
 	// expected boolean is returned.
-	// START TESTS (SIDE): public boolean isPossibleTriangle(Line sideA, Line sideB, Line sideC); // Triangle Inequality Theorem.
-	// END TESTS: public boolean isPossibleTriangle(Line sideA, Line sideB, Line sideC); // Triangle Inequality Theorem.
+	// START TESTS (SIDE): public boolean isValidTriangle(Line sideA, Line sideB, Line sideC); // Triangle Inequality Theorem.
+	// END TESTS: public boolean isValidTriangle(Line sideA, Line sideB, Line sideC); // Triangle Inequality Theorem.
 
-	// START TESTS (ANGLES): public boolean isPossibleTriangle(double angleA, double angleB, double angleC); // Equals 180 degrees.
-	// END TESTS : public boolean isPossibleTriangle(double angleA, double angleB, double angleC); // Equals 180 degrees.
+	// START TESTS (ANGLES): public boolean isValidTriangle(double angleA, double angleB, double angleC); // Equals 180 degrees.
+	// END TESTS : public boolean isValidTriangle(double angleA, double angleB, double angleC); // Equals 180 degrees.
 
 	// START TESTS: public boolean areSimilar(Triangle comparisonTriangle);
 	// END TESTS: public boolean areSimilar(Triangle comparisonTriangle);
