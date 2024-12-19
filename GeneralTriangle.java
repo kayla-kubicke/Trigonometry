@@ -4,41 +4,34 @@
 */
 
 public interface GeneralTriangle {
-	//
 	// Type methods will contain logic to determine type.
-	public boolean isType(); // Unnecessary?
-	public Triangle getType();
-		// REFACTOR: Collapse into two method.
-		// public boolean isRight();
-		// public boolean isAcute();
-		// public boolean isEquilateral();
-		// public boolean isObtuse();
-		// public boolean isIsoceles();
+	public String getType();
+	public String determineType(); // Returns a String, for now.
 
 
-	//
-	// Possible triangle methods will contain logic to determine if
-	// proposed triangle is possible.
-	public boolean isValidTriangle(Point sideA, Point sideB, Point sideC); // Triangle Inequality Theorem.
-	public boolean isValidTriangle(Angle angleA, Angle angleB, Angle angleC); // Equals 180 degrees.
-	// (POSSIBLE) UPDATE: isValidTriangle(...) combining known side and angle information.
+	// Ovderloaded validation methods
+	public boolean isValidTriangle(Line sideA, Line sideB, Line sideC);
+	public boolean isValidTriangle(Angle angleA, Angle angleB, Angle angleC);
+	public boolean isValidTriangle(Line side, double angle, double sumOfOtherSides);
+	public boolean isValidTriangle (double angle, Line side, double differenceOfOtherSides);
 
 
-	//
-	// Triangle comparison Boolean method
+	// Triangle comparison Boolean methods
 	public boolean areSimilar(Triangle comparisonTriangle);
-	// ADD: public boolean areCongruent(Triangle comparisonTriangle);
+	public boolean areCongruent(Triangle comparisonTriangle);
 
 
-	//
-	// Informational (get) methods
-	public double getSideLength(Point side);
+	// Calculation methods
+	public double calculateSideLength(Line side);
 		// REFACTOR: Collapse into one method.
 		// public double getSideLengthA();
 		// public double getSideLengthB();
 		// public double getSideLengthC();
 
-	public double getAngle(double angle); // Build Angle object?
+	// 12/19 - LIST ALL VARIATIONS
+	public double calculateAngle(double firstAngle, double secondAngle); // Build Angle object?
+
+
 		// REFACTOR: Collapse into one method.
 		// public double getAngleAlpha();
 		// public double getAngleBeta();

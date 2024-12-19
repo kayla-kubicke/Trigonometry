@@ -3,110 +3,143 @@
 * and retrieve information about triangle objects.
 */
 
-// POSSIBLE UPDATE: Triangle build handler for constructors?
+// POSSIBLE UPDATE: Triangle build handler for constructors.
+// UPDATE: Break out into abstract class instead of directly extending GeneralTriangle.
+// UPDATE: Push user interaction responsibilities to another class.
 
-public class Triangle extends GeneralTriangle {
-	private Line sideA;
-	private Line sideB;
-	private Line sideC;
 
-	private double angleA;
-	private double angleB;
-	private double angleC;
+public class Triangle { // extends GeneralTriangle
+	// 
+	// START: Data Fields
+	// 
+
+	// private Line sideA;
+	// private Line sideB;
+	// private Line sideC;
+
+	// private double angleA;
+	// private double angleB;
+	// private double angleC;
+
+	// private String type;
+
+	// 
+	// END: Data Fields
+	// 
 
 	//
-	// START CONSTRUCTOR HANDLER NOTES
+	// START: Constructors
 	//
 
-	// START: REQUIRE VALIDATION
-		// 3 sides
-		// (???) sideA assumed to be base, sideB assumed to be attached to left of base, sideC to the right
-			// I.D data type - (Line sideA, Line sideB, Line sideC)
-			// Validity check
-				// Rotate and assemble, regardless of current placement, at origin (just care about the
-				// length of the sides)
-				// Do sides touch correctly? (No overextension, no gaps)
-				// Calculate angles from triangle created
-				// Call constructor
+	// No params
+	// public Triangle() {
+		// Build default equalateral.
+	// }
 
-		// 3 angles
-		// (?) technically, would represent side ratios, not specific triangle.
-			// I.D data type - (double angleA, double angleB, double angleC)
-			// Validity check
-				// Add up to 180 or pi? Any zeros? // BigDecimal for radians.
-				// Call constructor
+	// 3 sides - 6 possible configurations
+	// public Triangle(Line sideA, Line sideB, Line sideC) {
+		// Validate
+	// }
 
-		// Base, base angle, sum of other two sides
-			// I.D data type - (Line base, double angle, double sumOfOtherSides)*
-			// Validity check
-				// Can the sumOfOtherSides reach sideB's ray?
-				// Call constructor
+	// 3 angle - 6 possible configurations
+	// NOTE: Only provides side ratios
+	// public Triangle(double angleA, double angleB, double angleC) {
+		// Validate
+	// }
 
-		// base, base angle, difference of other two sides
-			// I.D data type - (Line base, double angle, double differenceOfOtherSides)*
-			// Validity check
-				// Does the differenceOfOtherSides reach sideB's (on either side of) ray?
-	// END: REQUIRE VALIDATION
+	// Side length, associated angle, sum of two other sides - 12 possible configurations
+	// *NOTE: Respect order.
+	// public Triangle(Line side, double angle, double sumOfOtherSides) {
+		// Validate
+	// }
 
-	// 2 sides, 1 angle (Line sideA, Line sideB, double angleA)
-		// I.D data type
-			// Place one side starting at origin, attach other side based on provided angle,
-			// add remaining side, and angles.
+	// Side length, associated angle, difference of two other sides - 12 possible configurations
+	// *NOTE: Respect order.
+	// public Triangle(double angle, Line side, double differenceOfOtherSides) {
+		// Validate
+	// }
 
-	// 2 angles, 1 side (Line sideA, double angleA, double angleB)*
-		// I.D data type
-		// Place side starting at origin, "add" angles to side, and calculate remaining sides.
-		// Call constructor
+	// 2 sides, angle between provided sides - 6 possible configurations
+	// public Triangle(Line sideA, Line sideB, double angleA) {
+		//
+	// }
 
-	// * How should this be handled?
+	// 2 angles, 1 side associated with given angles - 6 possible configurations
+	// pubilc Triangle(Line sideA, double angleA, double angleB) {
+		//
+	// }
 
-	// END CONSTRUCTOR HANDLER NOTES
+	//
+	// END: Constructors
+	//
 
-	// Default; build equalateral triangle.
-	public Triangle() {
-	// this(...);
-	}
 
-	// If valid triangle, build triangle based on angles provided.
-	public Triangle(Line sideA, Line sideB, Line sideC) {
-		this.sideA = sideA;
-		this.sideB = sideB;
-		this.sideC = sideC;
+	//
+	// START: Methods 
+	//
 
-		// this.angleA = calculateAngle(...);
-		// this.angleB = calculateAngle(...);
-		// this.angleC = calculateAngle(...);
-	}
 
-	// If valid triangle, build triangle based on sides provided.
-	// Minimizes side length...?
-	public Triangle(double angleA, double angleB, double angleC) {
-		// this.sideA = calculateSide(...);
-		// this.sideB = calculateSide(...);
-		// this.sideC = calculateSide(...);
+	// START: Type Methods
+	// public String getType() {
+		// return this.type;
+	// }
 
-		this.angleA = angleA;
-		this.angleB = angleB;
-		this.angleC = angleC;
-	}
+	// public String determineType() {
+		// Contains logic to determine:
+			// Right triangle
+			// Acute triangle
+			// Equalateral triangle
+			// Obtuse triangle
+			// Isoceles triangle
+	// }
+	//  END: Type Methods
 
-	public boolean isType();
-	public Triangle getType();
 
-	// Valid
-	public boolean isValidTriangle(Line sideA, Line sideB, Line sideC); // Triangle Inequality Theorem.
-	public boolean isValidTriangle(double angleA, double angleB, double angleC); // Equals 180 degrees.
+	// START: Validations
+	// public boolean isValidTriangle(Line sideA, Line sideB, Line sideC) {
+		//
+	// }
 
-	public boolean areSimilar(Triangle comparisonTriangle);
+	// public boolean isValidTriangle(Angle angleA, Angle angleB, Angle angleC) {
+		//
+	// }
 
-	public double getSideLength(Line side);
+	// public boolean isValidTriangle(Line side, double angle, double sumOfOtherSides) {
+		//
+	// }
 
-	public double getAngle(double angle);
+	// public boolean isValidTriangle (double angle, Line side, double differenceOfOtherSides) {
+		//
+	// }
+	// END: Validations
 
-	public String getInformation(); // Just use toString()?
-	public String getUnknownInformation();
-	public String getKnownInformation();
 
-	public double getArea();
-	public double getPerimeter();
+	// START: Triangle Comparison
+	// public boolean areSimilar(Triangle comparisonTriangle) {
+		// Comparison logic
+	// }
+
+	// public boolean areCongruent(Triangle comparisonTriangle) {
+		// Maybe not needed...
+		// if(!this.areSimilar(comparisonTriangle)) {
+			// return false;
+		// }
+		// Comparison logic
+	// }
+	// END: Triangle Comparison
+
+
+	// 12/19 - LIST ALL VARIATIONS
+	// START: Calculations
+	// public double calculateSideLength(double firstAngle, double secondAngle) {
+		// Does Line have a method for this?
+	// }
+
+	// public double calculateAngle
+	// END: Calculations
+
+
+	//
+	// END: Methods 
+	//
 }

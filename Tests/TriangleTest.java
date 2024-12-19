@@ -20,6 +20,7 @@ public class TriangleTest {
 	// END TESTS: public Triangle getType();
 
 	// UPDATE SIDE VS POINTS
+	// UPDATE: Collapse into one method?
 	// isValidTriangle(Line sideA, Line sideB, Line sideC) test verify
 	// expected boolean is returned.
 	// START TESTS (SIDE): public boolean isValidTriangle(Line sideA, Line sideB, Line sideC); // Triangle Inequality Theorem.
