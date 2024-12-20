@@ -6,6 +6,7 @@
 // POSSIBLE UPDATE: Triangle build handler for constructors.
 // UPDATE: Break out into abstract class instead of directly extending GeneralTriangle.
 // UPDATE: Push user interaction responsibilities to another class.
+// UPDATE: Account for radians and degrees.
 
 
 public class Triangle { // extends GeneralTriangle
@@ -34,6 +35,8 @@ public class Triangle { // extends GeneralTriangle
 	// No params
 	// public Triangle() {
 		// Build default equalateral.
+		// 60, 60, 60 OR Math.PI/3, Math.PI/3, Math.PI/3
+		// 1, 1, 1
 	// }
 
 	// 3 sides - 6 possible configurations
@@ -49,18 +52,18 @@ public class Triangle { // extends GeneralTriangle
 
 	// Side length, associated angle, sum of two other sides - 12 possible configurations
 	// *NOTE: Respect order.
-	// public Triangle(Line side, double angle, double sumOfOtherSides) {
+	// public Triangle(Line side, double associatedAngle, double sumOfOtherSides) {
 		// Validate
 	// }
 
 	// Side length, associated angle, difference of two other sides - 12 possible configurations
 	// *NOTE: Respect order.
-	// public Triangle(double angle, Line side, double differenceOfOtherSides) {
+	// public Triangle(double associatedAngle, Line side, double differenceOfOtherSides) {
 		// Validate
 	// }
 
 	// 2 sides, angle between provided sides - 6 possible configurations
-	// public Triangle(Line sideA, Line sideB, double angleA) {
+	// public Triangle(Line sideA, Line sideB, double angleBetween) {
 		//
 	// }
 
@@ -100,7 +103,7 @@ public class Triangle { // extends GeneralTriangle
 		//
 	// }
 
-	// public boolean isValidTriangle(Angle angleA, Angle angleB, Angle angleC) {
+	// public boolean isValidTriangle(double angleA, double angleB, double angleC) {
 		//
 	// }
 
@@ -129,13 +132,8 @@ public class Triangle { // extends GeneralTriangle
 	// END: Triangle Comparison
 
 
-	// 12/19 - LIST ALL VARIATIONS
 	// START: Calculations
-	// public double calculateSideLength(double firstAngle, double secondAngle) {
-		// Does Line have a method for this?
-	// }
-
-	// public double calculateAngle
+	// public HashTable solveUnknownInformation(...);
 	// END: Calculations
 
 
