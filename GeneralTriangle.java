@@ -21,13 +21,25 @@ public interface GeneralTriangle {
 	public boolean areCongruent(Triangle comparisonTriangle);
 
 
-	// Calculation methods
+	// Initial calculation methods
 	// (!) FIX: Design with respect to constructors.
 	// (!) BUT: How to return? HashTable?
+	// Overloaded solveUnknownInformation(...)
 	public HashTable solveUnknownInformation(...);
 		// Collapse responsibility into solveUnknownInformation(...)
-			// public double calculateSideLength(...);
 			// public double calculateAngle(...);
+
+	//
+	// REMOVE
+	//
+
+	public HashTable solveUnknownInformation(Line sideA, Line sideB, Line sideC);
+
+	public double calculateSideLength(Line side);
+
+	//
+	// REMOVE
+	//
 
 	//
 	// Calculation methods
@@ -36,4 +48,9 @@ public interface GeneralTriangle {
 
 	//
 	// ADD: Configuration Information
+
+	//
+	// Get Methods
+	// public String getTriangleType();
+	// public String getAngleType();
 }

@@ -6,7 +6,8 @@
 // POSSIBLE UPDATE: Triangle build handler for constructors.
 // UPDATE: Break out into abstract class instead of directly extending GeneralTriangle.
 // UPDATE: Push user interaction responsibilities to another class.
-// UPDATE: Account for radians and degrees.
+// (~) UPDATE: Account for radians and degrees.
+// REDUCE: Recalculations (I'm looking at you, isValidTriangle(...))
 
 
 public class Triangle { // extends GeneralTriangle
@@ -18,15 +19,18 @@ public class Triangle { // extends GeneralTriangle
 	// private Line sideB;
 	// private Line sideC;
 
+	// ADD: Side lengths, to avoid recalculation?
+
 	// private double angleA;
 	// private double angleB;
 	// private double angleC;
 
-	// private String type;
+	// private String triangleType; // ADD: String[] of options?
+	// (?) ADD: private String angleType; // make int?
 
-	// 
+	//
 	// END: Data Fields
-	// 
+	//
 
 	//
 	// START: Constructors
@@ -34,9 +38,16 @@ public class Triangle { // extends GeneralTriangle
 
 	// No params
 	// public Triangle() {
-		// Build default equalateral.
-		// 60, 60, 60 OR Math.PI/3, Math.PI/3, Math.PI/3
-		// 1, 1, 1
+		// this.sideA = 1.0;
+		// this.sideB = 1.0;
+		// this.sideC = 1.0;
+
+		// this.angleA = Math.PI/3; // OR 60.0
+		// this.angleB = Math.PI/3; // OR 60.0
+		// this.angleC = Math.PI/3; // OR 60.0
+
+		// this.triangleType = "equalateral";
+		// this.angleType = "radians";
 	// }
 
 	// 3 sides - 6 possible configurations
@@ -100,19 +111,31 @@ public class Triangle { // extends GeneralTriangle
 
 	// START: Validations
 	// public boolean isValidTriangle(Line sideA, Line sideB, Line sideC) {
-		//
+		// double sideAlength = calculateSideLength(sideA); // NOTE/UPDATE: Will likely add as data field.
+		// double sideBlength = calculateSideLength(sideB);
+		// double sideClength = calculateSideLength(sideB);
+
+		// double longestSide = Math.max(Math.max(sideAlength, sideBlength), sideClength);
+		// double shortestSide = Math.min(Math.min(sideAlength, sideBlength), sideClength);
+		// double medianSide = (sideAlength + sideBlength + sideClength) - (longestSide + shortestSide);
+
+		// if(shortestSide + medianSide < longestSide) {
+			// return false;
+		// }
+
+		// return true;
 	// }
 
 	// public boolean isValidTriangle(double angleA, double angleB, double angleC) {
-		//
+		// ADD: Logic
 	// }
 
 	// public boolean isValidTriangle(Line side, double angle, double sumOfOtherSides) {
-		//
+		// ADD: Logic
 	// }
 
 	// public boolean isValidTriangle (double angle, Line side, double differenceOfOtherSides) {
-		//
+		// ADD: Logic
 	// }
 	// END: Validations
 
@@ -133,7 +156,25 @@ public class Triangle { // extends GeneralTriangle
 
 
 	// START: Calculations
-	// public HashTable solveUnknownInformation(...);
+	// public HashTable solveUnknownInformation(Line sideA, Line sideB, Line sideC) {
+		// if(isValidTriangle(Line sideA, Line sideB, Line sideC)) {
+			// Logic:
+				// Calculate lengthA of sideA
+				// *NOT THIS METHOD'S RESPONSIBILITY - MOVE!* Set points
+				// Depends on sides being reassigned by length...
+					// if sideA: Point a1 = (0,0), Point a2 = (lengthA, 0)
+					// if sideB: a1 = (0,0), Points b2,c2 = (ratio of base, height)
+					// if sideC: a2 = (lengthA, 0), b2,c2 = (ratio of base, height)
+
+			// (!) ANGLES
+		// }
+	// }
+
+
+	// public double calculateSideLength(Line side) {
+		// return Math.sqrt(Math.pow((side.endX + side.startX), 2) - Math.pow((side.endY + side.startY), 2));
+	// }
+
 	// END: Calculations
 
 
