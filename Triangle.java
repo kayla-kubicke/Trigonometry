@@ -3,11 +3,15 @@
 * and retrieve information about triangle objects.
 */
 
-// POSSIBLE UPDATE: Triangle build handler for constructors.
 // UPDATE: Break out into abstract class instead of directly extending GeneralTriangle.
 // UPDATE: Push user interaction responsibilities to another class.
-// (~) UPDATE: Account for radians and degrees.
-// REDUCE: Recalculations (I'm looking at you, isValidTriangle(...))
+// (~) UPDATE: Default radians; account for degrees.
+// REDUCE: Recalculations (isValidTriangle(...), etc)
+// FOR DOUBLES: BigDecimal/Handling decisions?
+// UPDATE: Side length calculations in constructor
+// (SET DEFAULT) UPDATE: Set sides based on length comparisons. (sideA is largest, etc)
+// UPDATE: Tiny angles.
+// REMOVE: Unnecessary parentheses from calculations.
 
 
 public class Triangle { // extends GeneralTriangle
@@ -19,7 +23,11 @@ public class Triangle { // extends GeneralTriangle
 	// private Line sideB;
 	// private Line sideC;
 
-	// ADD: Side lengths, to avoid recalculation?
+	// private double sideAlength;
+	// private double sideBlength;
+	// private double sideClength;
+
+	// (?) ADD: private double height; // this.calculateTriangleHeight() inside constructor
 
 	// private double angleA;
 	// private double angleB;
@@ -110,11 +118,7 @@ public class Triangle { // extends GeneralTriangle
 
 
 	// START: Validations
-	// public boolean isValidTriangle(Line sideA, Line sideB, Line sideC) {
-		// double sideAlength = calculateSideLength(sideA); // NOTE/UPDATE: Will likely add as data field.
-		// double sideBlength = calculateSideLength(sideB);
-		// double sideClength = calculateSideLength(sideB);
-
+	// public boolean isValidTriangle(Line sideA, Line sideB, Line sideC) { // FIX: Params only used to id method? -_-
 		// double longestSide = Math.max(Math.max(sideAlength, sideBlength), sideClength);
 		// double shortestSide = Math.min(Math.min(sideAlength, sideBlength), sideClength);
 		// double medianSide = (sideAlength + sideBlength + sideClength) - (longestSide + shortestSide);
@@ -146,7 +150,7 @@ public class Triangle { // extends GeneralTriangle
 	// }
 
 	// public boolean areCongruent(Triangle comparisonTriangle) {
-		// Maybe not needed...
+		// Maybe not needed... Previously calculated?
 		// if(!this.areSimilar(comparisonTriangle)) {
 			// return false;
 		// }
@@ -159,20 +163,36 @@ public class Triangle { // extends GeneralTriangle
 	// public HashTable solveUnknownInformation(Line sideA, Line sideB, Line sideC) {
 		// if(isValidTriangle(Line sideA, Line sideB, Line sideC)) {
 			// Logic:
-				// Calculate lengthA of sideA
-				// *NOT THIS METHOD'S RESPONSIBILITY - MOVE!* Set points
+				// Side lengths
+				// *NOT THIS METHOD'S RESPONSIBILITY - (!) MOVE* Set points
 				// Depends on sides being reassigned by length...
-					// if sideA: Point a1 = (0,0), Point a2 = (lengthA, 0)
-					// if sideB: a1 = (0,0), Points b2,c2 = (ratio of base, height)
-					// if sideC: a2 = (lengthA, 0), b2,c2 = (ratio of base, height)
+					// if sideA: Point a1 = (0,0), Point a2 = (sideAlength, 0)
+					// if sideB: a1 = (0,0), Points b2,c2 = (this.portionOfBase(), height)
+					// if sideC: a2 = (sideAlength, 0), b2,c2 = (this.portionOfBase(), height)
 
-			// (!) ANGLES
+				// Angles
+					// UPDATE: Make law of cosines method since calculation is used multiple times.
+					// this.angleC = 1 / (Math.cos((Math.pow.(sideAlength, 2) + Math.pow(sideBlength, 2) -  Math.pow(sideClength, 2)) / (2 * sideAlength * sideBlength)));
+					// this.angleB = 1 / (Math.cos((Math.pow(sideClength, 2) + Math.pow(sideAlength, 2) - Math.pow(sideBlength, 2)) / (2 * sideClength * sideAlength)));
+					// this.angleC = 180.0 - (angleB + angleC);
 		// }
 	// }
 
 
 	// public double calculateSideLength(Line side) {
 		// return Math.sqrt(Math.pow((side.endX + side.startX), 2) - Math.pow((side.endY + side.startY), 2));
+	// }
+
+
+	// public double calculateTriangleHeight() {
+		// double perimeterHalf = (sideAlength + sideBlength + sideClength) / 2;
+
+		// return Math.sqrt(perimeterHalf * (perimeterHalf - sideAlength) * (perimeterHalf - sideBlength) * (perimeterHalf - sideClength));
+	// }
+
+	// Do not like method name...
+	// public double portionOfBase() {
+		// return Math.sqrt(Math.pow(sideBlength, 2) - Math.pow(height, 2)); // Assumes height and length is data field.
 	// }
 
 	// END: Calculations
