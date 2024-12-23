@@ -8,9 +8,9 @@
 // (~) UPDATE: Default radians; account for degrees.
 // REDUCE: Recalculations (isValidTriangle(...), etc)
 // FOR DOUBLES: BigDecimal/Handling decisions?
-// UPDATE: Side length calculations in constructor
+// UPDATE: Side length calculations in constructor - (!!!) needs to trickle down to rest of values.
 // (SET DEFAULT) UPDATE: Set sides based on length comparisons. (sideA is largest, etc)
-// UPDATE: Tiny angles.
+// UPDATE: Account for tiny angles.
 // REMOVE: Unnecessary parentheses from calculations.
 
 
@@ -46,9 +46,13 @@ public class Triangle { // extends GeneralTriangle
 
 	// No params
 	// public Triangle() {
-		// this.sideA = 1.0;
-		// this.sideB = 1.0;
-		// this.sideC = 1.0;
+		// this.sideA = new Line((0, 0), (1, 0)); // -_-
+		// this.sideB = new Line((0, 0), (0.5, 1));
+		// this.sideC = new Line((1, 0), (0.5, 1));
+
+		// this.sideAlength = 1.0;
+		// this.sideBlength = 1.0;
+		// this.sideClength = 1.0;
 
 		// this.angleA = Math.PI/3; // OR 60.0
 		// this.angleB = Math.PI/3; // OR 60.0
@@ -60,7 +64,7 @@ public class Triangle { // extends GeneralTriangle
 
 	// 3 sides - 6 possible configurations
 	// public Triangle(Line sideA, Line sideB, Line sideC) {
-		// Validate
+		// Validate or throw
 	// }
 
 	// 3 angle - 6 possible configurations
@@ -118,27 +122,29 @@ public class Triangle { // extends GeneralTriangle
 
 
 	// START: Validations
-	// public boolean isValidTriangle(Line sideA, Line sideB, Line sideC) { // FIX: Params only used to id method? -_-
+	// Could write own exception, but this is good enough for now.
+	// public boolean isValidTriangle(Line sideA, Line sideB, Line sideC) throws IllegalArgumentException { // FIX: Params only used to id method? -_-
 		// double longestSide = Math.max(Math.max(sideAlength, sideBlength), sideClength);
 		// double shortestSide = Math.min(Math.min(sideAlength, sideBlength), sideClength);
 		// double medianSide = (sideAlength + sideBlength + sideClength) - (longestSide + shortestSide);
 
-		// if(shortestSide + medianSide < longestSide) {
+		// if(shortestSide + medianSide <= longestSide) {
 			// return false;
 		// }
 
+		// UPDATE: Reassignment occurs in solveUnknownInformation(...) ?
 		// return true;
 	// }
 
-	// public boolean isValidTriangle(double angleA, double angleB, double angleC) {
+	// public boolean isValidTriangle(double angleA, double angleB, double angleC) throws IllegalArgumentException {
 		// ADD: Logic
 	// }
 
-	// public boolean isValidTriangle(Line side, double angle, double sumOfOtherSides) {
+	// public boolean isValidTriangle(Line side, double angle, double sumOfOtherSides) throws IllegalArgumentException {
 		// ADD: Logic
 	// }
 
-	// public boolean isValidTriangle (double angle, Line side, double differenceOfOtherSides) {
+	// public boolean isValidTriangle (double angle, Line side, double differenceOfOtherSides) throws IllegalArgumentException {
 		// ADD: Logic
 	// }
 	// END: Validations
@@ -160,21 +166,21 @@ public class Triangle { // extends GeneralTriangle
 
 
 	// START: Calculations
-	// public HashTable solveUnknownInformation(Line sideA, Line sideB, Line sideC) {
-		// if(isValidTriangle(Line sideA, Line sideB, Line sideC)) {
-			// Logic:
-				// Side lengths
-				// *NOT THIS METHOD'S RESPONSIBILITY - (!) MOVE* Set points
-				// Depends on sides being reassigned by length...
-					// if sideA: Point a1 = (0,0), Point a2 = (sideAlength, 0)
-					// if sideB: a1 = (0,0), Points b2,c2 = (this.portionOfBase(), height)
-					// if sideC: a2 = (sideAlength, 0), b2,c2 = (this.portionOfBase(), height)
+	// Just directly update values.
+	// public void solveUnknownInformation(Line sideA, Line sideB, Line sideC) {
+		// if(isValidTriangle(Line sideA, Line sideB, Line sideC)) { // isValidTriangle(...) will handle exceptions.
+		// Logic:
+			// Side lengths
+			// Depends on sides being reassigned by length...
+			// ADD: Update
+				// if sideA: Point a1 = (0,0), Point a2 = (sideAlength, 0)
+				// if sideB: a1 = (0,0), Points b2,c2 = (this.portionOfBase(), height)
+				// if sideC: a2 = (sideAlength, 0), b2,c2 = (this.portionOfBase(), height)
 
-				// Angles
-					// UPDATE: Make law of cosines method since calculation is used multiple times.
-					// this.angleC = 1 / (Math.cos((Math.pow.(sideAlength, 2) + Math.pow(sideBlength, 2) -  Math.pow(sideClength, 2)) / (2 * sideAlength * sideBlength)));
-					// this.angleB = 1 / (Math.cos((Math.pow(sideClength, 2) + Math.pow(sideAlength, 2) - Math.pow(sideBlength, 2)) / (2 * sideClength * sideAlength)));
-					// this.angleC = 180.0 - (angleB + angleC);
+			// Angles
+				// this.angleC = calculateAngleWithLawOfConsines(this.sideClength, this.sideAlength, this.sideBlength);
+				// this.angleB = calculateAngleWithLawOfConsines(this.sideBlength, this.sideAlength, this.sideClength);
+				// this.angleC = 180.0 - (this.angleB + this.angleC);
 		// }
 	// }
 
@@ -188,6 +194,10 @@ public class Triangle { // extends GeneralTriangle
 		// double perimeterHalf = (sideAlength + sideBlength + sideClength) / 2;
 
 		// return Math.sqrt(perimeterHalf * (perimeterHalf - sideAlength) * (perimeterHalf - sideBlength) * (perimeterHalf - sideClength));
+	// }
+
+	// public double calculateAngleWithLawOfConsines(double sideLengthOppositeOfDesiredAngle, double sideLengthRemaining, double otherSideLengthRemaining) {
+		// return (1 / cos((Math.pow(sideLengthRemaining, 2) + Math.pow(otherSideLengthRemaining, 2) - Math.pow(sideLengthOppositeOfDesiredAngle, 2)) / (2 * sideLengthRemaining * otherSideLengthRemaining)));
 	// }
 
 	// Do not like method name...
