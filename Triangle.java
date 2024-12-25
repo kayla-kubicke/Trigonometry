@@ -12,29 +12,45 @@
 // (SET DEFAULT) UPDATE: Set sides based on length comparisons. (sideA is largest, etc)
 // UPDATE: Account for tiny angles.
 // REMOVE: Unnecessary parentheses from calculations.
+// UPDATE: All data fields should be immutable... eventually.
 
+import java.math.BigDecimal;
 
 public class Triangle { // extends GeneralTriangle
+	//
+	// START: (?) Constants
+	//
+
+	// ADD: String[] triangleTypeOptions of options?
+	// static final private String[] TRIANGLETYPEOPTIONS ={POPULATE};
+
+	//
+	// END: (?) Constants
+	//
+
 	// 
 	// START: Data Fields
 	// 
 
-	// private Line sideA;
-	// private Line sideB;
-	// private Line sideC;
+	private double[] sideAendpoint1;
+	private double[] sideAendpoint2;
+	private double[] sideBendpoint1;
+	private double[] sideBendpoint2;
+	private double[] sideCendpoint1;
+	private double[] sideCendpoint2;
 
-	// private double sideAlength;
-	// private double sideBlength;
-	// private double sideClength;
+	private double sideAlength;
+	private double sideBlength;
+	private double sideClength;
 
 	// (?) ADD: private double height; // this.calculateTriangleHeight() inside constructor
 
-	// private double angleA;
-	// private double angleB;
-	// private double angleC;
+	private double angleA;
+	private double angleB;
+	private double angleC;
 
-	// private String triangleType; // ADD: String[] of options?
-	// (?) ADD: private String angleType; // make int?
+	private String triangleType;
+	private String angleType; // make int?
 
 	//
 	// END: Data Fields
@@ -44,27 +60,30 @@ public class Triangle { // extends GeneralTriangle
 	// START: Constructors
 	//
 
-	// No params
-	// public Triangle() {
-		// this.sideA = new Line((0, 0), (1, 0)); // -_-
-		// this.sideB = new Line((0, 0), (0.5, 1));
-		// this.sideC = new Line((1, 0), (0.5, 1));
+	// No params - 1 configuration
+	public Triangle() {
+		this.sideAendpoint1 = new double[]{0.0, 0.0};
+		this.sideAendpoint2 = new double[]{1.0, 0.0};
+		this.sideBendpoint1 = new double[]{0.0, 0.0};
+		this.sideBendpoint2 = new double[]{0.5, Math.sqrt(3)/2};
+		this.sideCendpoint1 = new double[]{1.0, 0.0};
+		this.sideCendpoint2 = new double[]{0.5, Math.sqrt(3)/2};
 
-		// this.sideAlength = 1.0;
-		// this.sideBlength = 1.0;
-		// this.sideClength = 1.0;
+		this.sideAlength = this.calculateSideLength(this.sideAendpoint1, this.sideAendpoint2);
+		this.sideBlength = this.calculateSideLength(this.sideBendpoint1, this.sideBendpoint2);
+		this.sideClength = this.calculateSideLength(this.sideCendpoint1, this.sideCendpoint2);
 
-		// this.angleA = Math.PI/3; // OR 60.0
-		// this.angleB = Math.PI/3; // OR 60.0
-		// this.angleC = Math.PI/3; // OR 60.0
+		this.angleA = Math.PI / 3; // OR 60.0
+		this.angleB = Math.PI / 3; // OR 60.0
+		this.angleC = Math.PI / 3; // OR 60.0
 
-		// this.triangleType = "equalateral";
-		// this.angleType = "radians";
-	// }
+		this.triangleType = "equalateral";
+		this.angleType = "radians";
+	}
 
 	// 3 sides - 6 possible configurations
 	// public Triangle(Line sideA, Line sideB, Line sideC) {
-		// Validate or throw
+		// Validate (IllegalArgumentException bubbles from validate)
 	// }
 
 	// 3 angle - 6 possible configurations
@@ -184,10 +203,9 @@ public class Triangle { // extends GeneralTriangle
 		// }
 	// }
 
-
-	// public double calculateSideLength(Line side) {
-		// return Math.sqrt(Math.pow((side.endX + side.startX), 2) - Math.pow((side.endY + side.startY), 2));
-	// }
+	public double calculateSideLength(double[] startingPoint, double[] endpoint) {
+		return Math.sqrt(Math.pow((endpoint[0] - startingPoint[0]), 2) + Math.pow((endpoint[1] - startingPoint[1]), 2));
+	}
 
 
 	// public double calculateTriangleHeight() {
@@ -200,13 +218,75 @@ public class Triangle { // extends GeneralTriangle
 		// return (1 / cos((Math.pow(sideLengthRemaining, 2) + Math.pow(otherSideLengthRemaining, 2) - Math.pow(sideLengthOppositeOfDesiredAngle, 2)) / (2 * sideLengthRemaining * otherSideLengthRemaining)));
 	// }
 
-	// Do not like method name...
 	// public double portionOfBase() {
 		// return Math.sqrt(Math.pow(sideBlength, 2) - Math.pow(height, 2)); // Assumes height and length is data field.
 	// }
 
 	// END: Calculations
 
+	//
+	// START: Get Methods
+	//
+
+	public double[] getSideAendpoint1() {
+		return this.sideAendpoint1;
+	}
+
+	public double[] getSideAendpoint2() {
+		return this.sideAendpoint2;
+	}
+
+	public double[] getSideBendpoint1() {
+		return this.sideBendpoint1;
+	}
+
+	public double[] getSideBendpoint2() {
+		return this.sideBendpoint2;
+	}
+
+	public double[] getSideCendpoint1() {
+		return this.sideCendpoint1;
+	}
+
+	public double[] getSideCendpoint2() {
+		return this.sideCendpoint2;
+	}
+
+	public double getSideAlength() {
+		return this.sideAlength;	
+	}
+
+	public double getSideBlength() {
+		return this.sideBlength;	
+	}
+
+	public double getSideClength() {
+		return this.sideClength;	
+	}
+
+	public double getAngleA() {
+		return this.angleA;
+	}
+
+	public double getAngleB() {
+		return this.angleB;
+	}
+
+	public double getAngleC() {
+		return this.angleC;
+	}
+
+	public String getTriangleType() {
+		return this.triangleType;
+	}
+
+	public String getAngleType() {
+		return this.angleType;
+	}
+
+	//
+	// END: Get Methods
+	//
 
 	//
 	// END: Methods 

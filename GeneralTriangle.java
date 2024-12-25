@@ -23,7 +23,6 @@ public interface GeneralTriangle {
 
 	// Initial calculation methods
 	// (!) FIX: Design with respect to constructors.
-	// (!) BUT: How to return? HashTable?
 	// Overloaded solveUnknownInformation(...)
 	public void solveUnknownInformation(Line sideA, Line sideB, Line sideC);
 	// public void solveUnknownInformation(double angleA, double angleB, double angleC);
