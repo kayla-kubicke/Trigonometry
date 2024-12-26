@@ -13,10 +13,11 @@
 // UPDATE: Account for tiny angles.
 // REMOVE: Unnecessary parentheses from calculations.
 // UPDATE: All data fields should be immutable... eventually.
+// (!) UPDATE: Decided to use double[] instead of Line and/or Point.
 
-import java.math.BigDecimal;
+// import java.math.BigDecimal;
 
-public class Triangle { // extends GeneralTriangle
+public class Triangle implements GeneralTriangle {
 	//
 	// START: (?) Constants
 	//
@@ -60,7 +61,7 @@ public class Triangle { // extends GeneralTriangle
 	// START: Constructors
 	//
 
-	// No params - 1 configuration
+	// Default Equilateral - 1 configuration
 	public Triangle() {
 		this.sideAendpoint1 = new double[]{0.0, 0.0};
 		this.sideAendpoint2 = new double[]{1.0, 0.0};
@@ -77,7 +78,7 @@ public class Triangle { // extends GeneralTriangle
 		this.angleB = Math.PI / 3; // OR 60.0
 		this.angleC = Math.PI / 3; // OR 60.0
 
-		this.triangleType = "equalateral";
+		this.triangleType = "equilateral";
 		this.angleType = "radians";
 	}
 
@@ -205,6 +206,29 @@ public class Triangle { // extends GeneralTriangle
 
 	public double calculateSideLength(double[] startingPoint, double[] endpoint) {
 		return Math.sqrt(Math.pow((endpoint[0] - startingPoint[0]), 2) + Math.pow((endpoint[1] - startingPoint[1]), 2));
+
+		//
+		// START: BigDecimal version
+		//
+
+		// BigDecimal endpoint0 = new BigDecimal(endpoint[0]);
+		// BigDecimal endpoint1 = new BigDecimal(endpoint[1]);
+
+		// BigDecimal startingPoint0 = new BigDecimal(startingPoint[0]);
+		// BigDecimal startingPoint1 = new BigDecimal(startingPoint[1]);
+
+		// BigDecimal firstSubtraction = endpoint0.subtract(startingPoint0);
+		// BigDecimal secondSubtraction = endpoint1.subtract(startingPoint1);
+
+		// BigDecimal firstSubtractionSquared = firstSubtraction.multiply(firstSubtraction);
+		// BigDecimal secondSubtractionSquared = secondSubtraction.multiply(secondSubtraction);
+
+		// BigDecimal total = firstSubtractionSquared.add(secondSubtractionSquared);
+		// double squaredTotal = Math.sqrt(total.doubleValue());
+
+		//
+		// END: BigDecimal version
+		//
 	}
 
 
