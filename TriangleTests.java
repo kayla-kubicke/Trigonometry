@@ -5,6 +5,7 @@
 
 public class TriangleTests {
 	// Default constructor unit tests
+	// UPDATE: Break up, clean up, remove calculateSideLength(double[] startingPoint, double[] endpoint) tests.
 	public static boolean createsDefaultTriangleConstructor() {
 		Triangle testObject = new Triangle();
 
@@ -37,6 +38,10 @@ public class TriangleTests {
 
 		return false;
 	}
+
+	// public static boolean calculatesExpectedSideLength() {
+		// 
+	// }
 
 
 	// Test Runner

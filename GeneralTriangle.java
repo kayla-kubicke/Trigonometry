@@ -10,7 +10,7 @@ public interface GeneralTriangle {
 
 
 	// Ovderloaded validation methods
-	// public boolean isValidTriangle(Line sideA, Line sideB, Line sideC);
+	public boolean isValidTriangle(double sideAlength, double sideBlength, double sideClength);
 	// public boolean isValidTriangle(double angleA, double angleB, double angleC);
 	// public boolean isValidTriangle(Line side, double angle, double sumOfOtherSides);
 	// public boolean isValidTriangle (double angle, Line side, double differenceOfOtherSides);
@@ -24,7 +24,7 @@ public interface GeneralTriangle {
 	// Initial calculation methods
 	// (!) FIX: Design with respect to constructors.
 	// Overloaded solveUnknownInformation(...)
-	// public void solveUnknownInformation(Line sideA, Line sideB, Line sideC);
+	public void solveUnknownInformation(double sideAlength, double sideBlength, double sideClength);
 	// public void solveUnknownInformation(double angleA, double angleB, double angleC);
 	// public void solveUnknownInformation(Line side, double associatedAngle, double sumOfOtherSides);
 	// public void solveUnknownInformation(double associatedAngle, Line side, double differenceOfOtherSides);

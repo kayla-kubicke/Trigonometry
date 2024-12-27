@@ -10,10 +10,12 @@
 // FOR DOUBLES: BigDecimal/Handling decisions?
 // UPDATE: Side length calculations in constructor - (!!!) needs to trickle down to rest of values.
 // (SET DEFAULT) UPDATE: Set sides based on length comparisons. (sideA is largest, etc)
+	// BUT, only applies to scalenes; rethink.
 // UPDATE: Account for tiny angles.
 // REMOVE: Unnecessary parentheses from calculations.
 // UPDATE: All data fields should be immutable... eventually.
 // (!) UPDATE: Decided to use double[] instead of Line and/or Point.
+	// MAY update to HashMap to call x/y keys; would be cleaner. Leave for now.
 
 // import java.math.BigDecimal;
 
@@ -46,12 +48,17 @@ public class Triangle implements GeneralTriangle {
 
 	// (?) ADD: private double height; // this.calculateTriangleHeight() inside constructor
 
+	// (?) No... only applies to scalenes.
+	// private String longestSide =;
+	// private String medianSide =;
+	// private String shortestSide =;
+
 	private double angleA;
 	private double angleB;
 	private double angleC;
 
 	private String triangleType;
-	private String angleType; // make int?
+	private String angleType;
 
 	//
 	// END: Data Fields
@@ -66,10 +73,9 @@ public class Triangle implements GeneralTriangle {
 		this.sideAendpoint1 = new double[]{0.0, 0.0};
 		this.sideAendpoint2 = new double[]{1.0, 0.0};
 		this.sideBendpoint1 = new double[]{0.0, 0.0};
-		this.sideBendpoint2 = new double[]{0.5, Math.sqrt(3)/2};
+		this.sideBendpoint2 = new double[]{0.5, Math.sqrt(3)/2}; // Could use height method.
 		this.sideCendpoint1 = new double[]{1.0, 0.0};
-		this.sideCendpoint2 = new double[]{0.5, Math.sqrt(3)/2};
-
+		this.sideCendpoint2 = new double[]{0.5, Math.sqrt(3)/2}; // Ditto.
 		this.sideAlength = this.calculateSideLength(this.sideAendpoint1, this.sideAendpoint2);
 		this.sideBlength = this.calculateSideLength(this.sideBendpoint1, this.sideBendpoint2);
 		this.sideClength = this.calculateSideLength(this.sideCendpoint1, this.sideCendpoint2);
@@ -83,9 +89,9 @@ public class Triangle implements GeneralTriangle {
 	}
 
 	// 3 sides - 6 possible configurations
-	// public Triangle(Line sideA, Line sideB, Line sideC) {
+	public Triangle(double sideAlength, double sideBlength, double sideClength) {
 		// Validate (IllegalArgumentException bubbles from validate)
-	// }
+	}
 
 	// 3 angle - 6 possible configurations
 	// NOTE: Only provides side ratios
@@ -134,7 +140,7 @@ public class Triangle implements GeneralTriangle {
 		// Contains logic to determine:
 			// Right triangle
 			// Acute triangle
-			// Equalateral triangle
+			// Equilateral triangle
 			// Obtuse triangle
 			// Isoceles triangle
 	// }
@@ -143,18 +149,20 @@ public class Triangle implements GeneralTriangle {
 
 	// START: Validations
 	// Could write own exception, but this is good enough for now.
-	// public boolean isValidTriangle(Line sideA, Line sideB, Line sideC) throws IllegalArgumentException { // FIX: Params only used to id method? -_-
-		// double longestSide = Math.max(Math.max(sideAlength, sideBlength), sideClength);
-		// double shortestSide = Math.min(Math.min(sideAlength, sideBlength), sideClength);
-		// double medianSide = (sideAlength + sideBlength + sideClength) - (longestSide + shortestSide);
+	// FIX: Params only used to id method? -_-
+	// Double check: Assignment works correctly for equilateral, isosceles, and scalene.
+	public boolean isValidTriangle(double sideAlength, double sideBlength, double sideClength) throws IllegalArgumentException {
+		double longestSide = Math.max(Math.max(sideAlength, sideBlength), sideClength);
+		double shortestSide = Math.min(Math.min(sideAlength, sideBlength), sideClength);
+		double medianSide = (sideAlength + sideBlength + sideClength) - (longestSide + shortestSide);
 
-		// if(shortestSide + medianSide <= longestSide) {
-			// return false;
-		// }
+		if(shortestSide + medianSide <= longestSide) {
+			return false;
+		}
 
 		// UPDATE: Reassignment occurs in solveUnknownInformation(...) ?
-		// return true;
-	// }
+		return true;
+	}
 
 	// public boolean isValidTriangle(double angleA, double angleB, double angleC) throws IllegalArgumentException {
 		// ADD: Logic
@@ -187,8 +195,8 @@ public class Triangle implements GeneralTriangle {
 
 	// START: Calculations
 	// Just directly update values.
-	// public void solveUnknownInformation(Line sideA, Line sideB, Line sideC) {
-		// if(isValidTriangle(Line sideA, Line sideB, Line sideC)) { // isValidTriangle(...) will handle exceptions.
+	public void solveUnknownInformation(double sideAlength, double sideBlength, double sideClength) {
+		// if(isValidTriangle(Ldouble sideAlength, double sideBlength, double sideClength)) { // isValidTriangle(...) will handle exceptions.
 		// Logic:
 			// Side lengths
 			// Depends on sides being reassigned by length...
@@ -201,7 +209,7 @@ public class Triangle implements GeneralTriangle {
 				// this.angleC = calculateAngleWithLawOfConsines(this.sideClength, this.sideAlength, this.sideBlength);
 				// this.angleB = calculateAngleWithLawOfConsines(this.sideBlength, this.sideAlength, this.sideClength);
 				// this.angleC = 180.0 - (this.angleB + this.angleC);
-		// }
+		}
 	// }
 
 	public double calculateSideLength(double[] startingPoint, double[] endpoint) {
