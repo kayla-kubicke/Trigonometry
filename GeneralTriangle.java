@@ -40,6 +40,8 @@ public interface GeneralTriangle {
 	// public double getArea();
 	// public double getPerimeter();
 
+	public String determineTriangleType(sideAlength, sideBlength, sideClength);
+
 	//
 	// ADD: Configuration Information
 
@@ -58,5 +60,6 @@ public interface GeneralTriangle {
 	public double getAngleB();
 	public double getAngleC();
 	public String getTriangleType();
-	public String getAngleType();
+	public String getAngleTypeBySide();
+	// public String getTriangleTypeByAngle();
 }

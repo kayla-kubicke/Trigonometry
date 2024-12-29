@@ -6,7 +6,7 @@
 public class TriangleTests {
 	// Default constructor unit tests
 	// UPDATE: Break up, clean up, remove calculateSideLength(double[] startingPoint, double[] endpoint) tests.
-	public static boolean createsDefaultTriangleConstructor() {
+	public static boolean defaultConstructorCreatesTriangle() {
 		Triangle testObject = new Triangle();
 
 		// Justification for side length test choices.
@@ -39,13 +39,27 @@ public class TriangleTests {
 		return false;
 	}
 
-	// public static boolean calculatesExpectedSideLength() {
-		// 
-	// }
+	// public static boolean calculatesExpectedSideLength() {}
 
+	// public static boolean threeSideLengthsProvidedConstructorCreatesValidTriangle() {}
+	// public static boolean threeSideLengthsProvidedConstructorDoesNotCreateInvalidTriangle() {}
+
+	// public static boolean validatesThreeSideLengthsProvidedEquilateralTriangle() {}
+	// public static boolean validatesThreeSideLengthsProvidedIsoscelesTriangle() {}
+	// ADD: Invalid one
+	// public static boolean validatesThreeSideLengthsProvidedScaleneTriangle() {}
+	// ADD: Invalid one
+
+	// ADD: solveUnknownInformation(double sideAlength, double sideBlength, double sideClength) Test Suite
+
+	// ADD: calculateTriangleHeight()
+
+	// ADD: calculateAngleWithLawOfConsines(double sideLengthOppositeOfDesiredAngle, double sideLengthRemaining, double otherSideLengthRemaining) Test Suite
+
+	// ADD: portionOfBase() Test Suite
 
 	// Test Runner
 	public static void main(String[] args) {
-		System.out.println("Creates default triangle constructor: " + createsDefaultTriangleConstructor());
+		System.out.println("Creates default triangle constructor: " + defaultConstructorCreatesTriangle());
 	}
 }
