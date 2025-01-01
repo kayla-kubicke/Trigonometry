@@ -14,6 +14,7 @@
 // UPDATE: All data fields should be immutable... eventually.
 // (!) UPDATE: Decided to use double[] instead of Line and/or Point (avoids depending on external packages).
 	// MAY update to HashMap to call x/y keys; would be cleaner. Leave for now.
+// ALL formating occurs in constructor OR solveUnknownInformation(...)
 
 // import java.math.BigDecimal;
 import java.lang.Math.*;
@@ -73,9 +74,9 @@ public class Triangle implements GeneralTriangle {
 		this.sideBendpoint2 = new double[]{0.5, this.height};
 		this.sideCendpoint1 = new double[]{1.0, 0.0};
 		this.sideCendpoint2 = new double[]{0.5, this.height};
-		this.sideAlength = this.calculateSideLength(this.sideAendpoint1, this.sideAendpoint2);
-		this.sideBlength = this.calculateSideLength(this.sideBendpoint1, this.sideBendpoint2);
-		this.sideClength = this.calculateSideLength(this.sideCendpoint1, this.sideCendpoint2);
+		this.sideAlength = GeneralTriangle.formatDouble(this.calculateSideLength(this.sideAendpoint1, this.sideAendpoint2));
+		this.sideBlength = GeneralTriangle.formatDouble(this.calculateSideLength(this.sideBendpoint1, this.sideBendpoint2));
+		this.sideClength = GeneralTriangle.formatDouble(this.calculateSideLength(this.sideCendpoint1, this.sideCendpoint2));
 
 		this.angleA = GeneralTriangle.formatDouble(Math.PI / 3); // OR 60.0
 		this.angleB = GeneralTriangle.formatDouble(Math.PI / 3); // OR 60.0
@@ -160,16 +161,9 @@ public class Triangle implements GeneralTriangle {
 		double shortestSide = Math.min(Math.min(sideAlength, sideBlength), sideClength);
 		double medianSide = (sideAlength + sideBlength + sideClength) - (longestSide + shortestSide);
 
-		// REMOVE
-		// So many rounding issues...
-		System.out.println("longestSide: " + longestSide);
-		System.out.println("shortestSide: " + shortestSide); // ROunding issue on equilateral
-		System.out.println("medianSide: " + medianSide);
-		// REMOVE
+		if(shortestSide + medianSide >= longestSide) { // REMOVE: Swapped logic around; a tad cleaner.
 
-		if(shortestSide + medianSide <= longestSide) {
-			// (?) ADD RESPONSIBILITY: Triangle type? Just want to avoid repeat calculations... Kinda makes sense to assign in validate.
-			if(shortestSide == medianSide && shortestSide == longestSide) { // ACCOUNT FOR ROUNDING ERRRORS, percentage tolerance?
+			if(shortestSide == medianSide && shortestSide == longestSide) {
 				this.triangleTypeBySide = "equilateral";
 			} else if(shortestSide == medianSide) {
 				this.triangleTypeBySide = "isosceles";
@@ -177,10 +171,10 @@ public class Triangle implements GeneralTriangle {
 				this.triangleTypeBySide = "scalene";
 			}
 
-			return false;
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	// public boolean isValidTriangle(double angleA, double angleB, double angleC) throws IllegalArgumentException {
@@ -214,25 +208,32 @@ public class Triangle implements GeneralTriangle {
 
 	// START: Calculations
 	public void solveUnknownInformation(double sideAlength, double sideBlength, double sideClength) {
-		this.height = this.calculateTriangleHeight(); // CHECK: calculateTriangleHeight()
+		this.height = GeneralTriangle.formatDouble(this.calculateTriangleHeight());
 
 		this.sideAendpoint1 = new double[]{0.0, 0.0};
 		this.sideAendpoint2 = new double[]{this.sideAlength, 0.0};
 		this.sideBendpoint1 = new double[]{0.0, 0.0};
-		this.sideBendpoint2 = new double[]{this.portionOfBase(), this.height}; // CHECK: portionOfBase()
+		this.sideBendpoint2 = new double[]{GeneralTriangle.formatDouble(this.portionOfBase()), GeneralTriangle.formatDouble(this.calculateTriangleHeight())};
 		this.sideCendpoint1 = new double[]{this.sideAlength, 0.0};
-		this.sideCendpoint2 = new double[]{this.portionOfBase(), this.height};
+		this.sideCendpoint2 = new double[]{GeneralTriangle.formatDouble(this.portionOfBase()), GeneralTriangle.formatDouble(this.calculateTriangleHeight())};
 
-		// CHECK: calculateAngleWithLawOfConsines()
 		this.angleC = calculateAngleWithLawOfConsines(this.sideClength, this.sideAlength, this.sideBlength);
 		this.angleB = calculateAngleWithLawOfConsines(this.sideBlength, this.sideClength, this.sideAlength);
-		this.angleA = ((Math.PI) - (this.angleB + this.angleC)); // rounding error
+		this.angleA = (Math.PI) - (this.angleB + this.angleC);
+
+		// FORMAT HERE TO PREVENT ROUNDING ERRORS... -_-
+		// Move above?
+		this.angleC = GeneralTriangle.formatDouble(this.angleC);
+		this.angleB = GeneralTriangle.formatDouble(this.angleB);
+		this.angleA = GeneralTriangle.formatDouble(this.angleA);
+
+		// FORMAT SIDE LENGTHS?
 
 		this.angleType = "radians";
 	}
 
 	public double calculateSideLength(double[] startingPoint, double[] endpoint) {
-		return GeneralTriangle.formatDouble(Math.sqrt(Math.pow((endpoint[0] - startingPoint[0]), 2) + Math.pow((endpoint[1] - startingPoint[1]), 2)));
+		return (Math.sqrt(Math.pow((endpoint[0] - startingPoint[0]), 2) + Math.pow((endpoint[1] - startingPoint[1]), 2)));
 
 		//
 		// START: BigDecimal version
@@ -260,17 +261,17 @@ public class Triangle implements GeneralTriangle {
 
 	public double calculateTriangleHeight() {
 		double perimeterHalf = (this.sideAlength + this.sideBlength + this.sideClength) / 2;
+		double area = Math.sqrt((perimeterHalf * (perimeterHalf - this.sideAlength) * (perimeterHalf - this.sideBlength) * (perimeterHalf - this.sideClength)));
 
-		return Math.sqrt(perimeterHalf * (perimeterHalf - this.sideAlength) * (perimeterHalf - this.sideBlength) * (perimeterHalf - this.sideClength));
+		return (area * 2) / this.sideAlength; // Assumes sideA is base, for now.
 	}
 
-	// Add to GeneralTriangle
 	public double calculateAngleWithLawOfConsines(double sideLengthOppositeOfDesiredAngle, double sideLengthRemaining, double otherSideLengthRemaining) {
-		return GeneralTriangle.formatDouble(Math.acos(((Math.pow(sideLengthRemaining, 2) + Math.pow(otherSideLengthRemaining, 2) - Math.pow(sideLengthOppositeOfDesiredAngle, 2)) / (2 * sideLengthRemaining * otherSideLengthRemaining))));
+		return Math.acos(((Math.pow(sideLengthRemaining, 2) + Math.pow(otherSideLengthRemaining, 2) - Math.pow(sideLengthOppositeOfDesiredAngle, 2)) / (2 * sideLengthRemaining * otherSideLengthRemaining)));
 	}
 
 	public double portionOfBase() {
-		return GeneralTriangle.formatDouble(Math.sqrt(Math.pow(this.sideBlength, 2) - Math.pow(this.height, 2)));
+		return Math.sqrt(Math.pow(this.sideBlength, 2) - Math.pow(this.height, 2));
 	}
 
 	// END: Calculations

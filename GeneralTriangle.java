@@ -44,7 +44,17 @@ public interface GeneralTriangle {
 			return 1.0;
 		}
 
-		return Math.round(number * Math.pow(10, 5)) / Math.pow(10, 5);
+		// REMOVE
+		// FIX: Remove if above and add decimal 9 repeating round.
+		// double returnDouble = Math.round(number * Math.pow(10, 5)) / Math.pow(10, 5);
+
+		// double rename = returnDouble / 0.000001;
+		// double temp = rename % 100;
+
+		// while((rename / 10) % 10 == 9.0) {}
+		// REMOVE
+
+		return Math.round(number * Math.pow(10, 5)) / Math.pow(10, 5); // UPDATE
 	}
 	// public String determineTriangleType(double sideAlength, double sideBlength, double sideClength);
 
