@@ -10,7 +10,7 @@ public interface GeneralTriangle {
 
 
 	// Ovderloaded validation methods
-	public boolean isValidTriangle(double sideAlength, double sideBlength, double sideClength);
+	// public boolean isValidTriangle(double sideAlength, double sideBlength, double sideClength);
 	// public boolean isValidTriangle(double angleA, double angleB, double angleC);
 	// public boolean isValidTriangle(Line side, double angle, double sumOfOtherSides);
 	// public boolean isValidTriangle (double angle, Line side, double differenceOfOtherSides);
@@ -24,23 +24,29 @@ public interface GeneralTriangle {
 	// Initial calculation methods
 	// (!) FIX: Design with respect to constructors.
 	// Overloaded solveUnknownInformation(...)
-	public void solveUnknownInformation(double sideAlength, double sideBlength, double sideClength);
+	// public void solveUnknownInformation(double sideAlength, double sideBlength, double sideClength);
 	// public void solveUnknownInformation(double angleA, double angleB, double angleC);
 	// public void solveUnknownInformation(Line side, double associatedAngle, double sumOfOtherSides);
 	// public void solveUnknownInformation(double associatedAngle, Line side, double differenceOfOtherSides);
 	// public void solveUnknownInformation(Line sideA, Line sideB, double angleBetween);
 	// public void solveUnknownInformation(Line sideA, double angleA, double angleB);
 	// public double calculateSideLength(Line side);
-	// public double calculateTriangleHeight();
-	// public double portionOfBase(); // Rename?
+	public double calculateTriangleHeight();
+	public double portionOfBase(); // Rename?
 
 	//
 	// Calculation methods
 	public double calculateSideLength(double[] startingPoint, double[] endpoint);
 	// public double getArea();
 	// public double getPerimeter();
+	public static double formatDouble(double number) {
+		if(number == 0.9999999999999999) {
+			return 1.0;
+		}
 
-	public String determineTriangleType(sideAlength, sideBlength, sideClength);
+		return Math.round(number * Math.pow(10, 5)) / Math.pow(10, 5);
+	}
+	// public String determineTriangleType(double sideAlength, double sideBlength, double sideClength);
 
 	//
 	// ADD: Configuration Information
@@ -59,7 +65,8 @@ public interface GeneralTriangle {
 	public double getAngleA();
 	public double getAngleB();
 	public double getAngleC();
-	public String getTriangleType();
-	public String getAngleTypeBySide();
+	public String getAngleType();
+	// public String getTriangleType();
+	public String getTriangleTypeBySide();
 	// public String getTriangleTypeByAngle();
 }

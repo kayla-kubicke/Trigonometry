@@ -7,14 +7,16 @@
 // UPDATE: Push user interaction responsibilities to another class.
 // (~) UPDATE: Default radians; account for degrees.
 // REDUCE: Recalculations (isValidTriangle(...), etc)
-// FOR DOUBLES: BigDecimal/Handling decisions?
+// FOR DOUBLES: BigDecimal/Handling decisions? ¯\_(ツ)_/¯
+	// tolerance percentage or something...
 // UPDATE: Account for tiny angles.
 // REMOVE: Unnecessary parentheses from calculations.
 // UPDATE: All data fields should be immutable... eventually.
-// (!) UPDATE: Decided to use double[] instead of Line and/or Point.
+// (!) UPDATE: Decided to use double[] instead of Line and/or Point (avoids depending on external packages).
 	// MAY update to HashMap to call x/y keys; would be cleaner. Leave for now.
 
 // import java.math.BigDecimal;
+import java.lang.Math.*;
 
 public class Triangle implements GeneralTriangle {
 	//
@@ -63,7 +65,7 @@ public class Triangle implements GeneralTriangle {
 
 	// Default Equilateral - 1 configuration
 	public Triangle() {
-		this.height = Math.sqrt(3)/2;
+		this.height = GeneralTriangle.formatDouble(Math.sqrt(3)/2);
 
 		this.sideAendpoint1 = new double[]{0.0, 0.0};
 		this.sideAendpoint2 = new double[]{1.0, 0.0};
@@ -75,9 +77,9 @@ public class Triangle implements GeneralTriangle {
 		this.sideBlength = this.calculateSideLength(this.sideBendpoint1, this.sideBendpoint2);
 		this.sideClength = this.calculateSideLength(this.sideCendpoint1, this.sideCendpoint2);
 
-		this.angleA = Math.PI / 3; // OR 60.0
-		this.angleB = Math.PI / 3; // OR 60.0
-		this.angleC = Math.PI / 3; // OR 60.0
+		this.angleA = GeneralTriangle.formatDouble(Math.PI / 3); // OR 60.0
+		this.angleB = GeneralTriangle.formatDouble(Math.PI / 3); // OR 60.0
+		this.angleC = GeneralTriangle.formatDouble(Math.PI / 3); // OR 60.0
 
 		this.triangleTypeBySide = "equilateral";
 		this.angleType = "radians";
@@ -152,10 +154,18 @@ public class Triangle implements GeneralTriangle {
 	// Could write own exception, but this is good enough for now.
 	// FIX: Params only used to id method? -_-
 	// Double check: Assignment works correctly for equilateral, isosceles, and scalene.
+	// FIX: Error handling.
 	public boolean isValidTriangle(double sideAlength, double sideBlength, double sideClength) throws IllegalArgumentException {
 		double longestSide = Math.max(Math.max(sideAlength, sideBlength), sideClength);
 		double shortestSide = Math.min(Math.min(sideAlength, sideBlength), sideClength);
 		double medianSide = (sideAlength + sideBlength + sideClength) - (longestSide + shortestSide);
+
+		// REMOVE
+		// So many rounding issues...
+		System.out.println("longestSide: " + longestSide);
+		System.out.println("shortestSide: " + shortestSide); // ROunding issue on equilateral
+		System.out.println("medianSide: " + medianSide);
+		// REMOVE
 
 		if(shortestSide + medianSide <= longestSide) {
 			// (?) ADD RESPONSIBILITY: Triangle type? Just want to avoid repeat calculations... Kinda makes sense to assign in validate.
@@ -204,7 +214,7 @@ public class Triangle implements GeneralTriangle {
 
 	// START: Calculations
 	public void solveUnknownInformation(double sideAlength, double sideBlength, double sideClength) {
-		this.height = this.calculateTriangleHeight();
+		this.height = this.calculateTriangleHeight(); // CHECK: calculateTriangleHeight()
 
 		this.sideAendpoint1 = new double[]{0.0, 0.0};
 		this.sideAendpoint2 = new double[]{this.sideAlength, 0.0};
@@ -215,14 +225,14 @@ public class Triangle implements GeneralTriangle {
 
 		// CHECK: calculateAngleWithLawOfConsines()
 		this.angleC = calculateAngleWithLawOfConsines(this.sideClength, this.sideAlength, this.sideBlength);
-		this.angleB = calculateAngleWithLawOfConsines(this.sideBlength, this.sideAlength, this.sideClength);
-		this.angleA = 180.0 - (this.angleB + this.angleC);
+		this.angleB = calculateAngleWithLawOfConsines(this.sideBlength, this.sideClength, this.sideAlength);
+		this.angleA = ((Math.PI) - (this.angleB + this.angleC)); // rounding error
 
 		this.angleType = "radians";
 	}
 
 	public double calculateSideLength(double[] startingPoint, double[] endpoint) {
-		return Math.sqrt(Math.pow((endpoint[0] - startingPoint[0]), 2) + Math.pow((endpoint[1] - startingPoint[1]), 2));
+		return GeneralTriangle.formatDouble(Math.sqrt(Math.pow((endpoint[0] - startingPoint[0]), 2) + Math.pow((endpoint[1] - startingPoint[1]), 2)));
 
 		//
 		// START: BigDecimal version
@@ -248,19 +258,19 @@ public class Triangle implements GeneralTriangle {
 		//
 	}
 
-
 	public double calculateTriangleHeight() {
 		double perimeterHalf = (this.sideAlength + this.sideBlength + this.sideClength) / 2;
 
 		return Math.sqrt(perimeterHalf * (perimeterHalf - this.sideAlength) * (perimeterHalf - this.sideBlength) * (perimeterHalf - this.sideClength));
 	}
 
+	// Add to GeneralTriangle
 	public double calculateAngleWithLawOfConsines(double sideLengthOppositeOfDesiredAngle, double sideLengthRemaining, double otherSideLengthRemaining) {
-		return (1 / cos((Math.pow(sideLengthRemaining, 2) + Math.pow(otherSideLengthRemaining, 2) - Math.pow(sideLengthOppositeOfDesiredAngle, 2)) / (2 * sideLengthRemaining * otherSideLengthRemaining)));
+		return GeneralTriangle.formatDouble(Math.acos(((Math.pow(sideLengthRemaining, 2) + Math.pow(otherSideLengthRemaining, 2) - Math.pow(sideLengthOppositeOfDesiredAngle, 2)) / (2 * sideLengthRemaining * otherSideLengthRemaining))));
 	}
 
 	public double portionOfBase() {
-		return Math.sqrt(Math.pow(this.sideBlength, 2) - Math.pow(this.height, 2)); // Assumes height and length is data field.
+		return GeneralTriangle.formatDouble(Math.sqrt(Math.pow(this.sideBlength, 2) - Math.pow(this.height, 2)));
 	}
 
 	// END: Calculations

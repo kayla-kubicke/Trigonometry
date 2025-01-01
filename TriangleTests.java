@@ -19,18 +19,18 @@ public class TriangleTests {
 			testObject.getSideBendpoint1()[0] == 0.0 &&
 			testObject.getSideBendpoint1()[1] == 0.0 &&
 			testObject.getSideBendpoint2()[0] == 0.5 &&
-			testObject.getSideBendpoint2()[1] == Math.sqrt(3)/2 &&
+			testObject.getSideBendpoint2()[1] == GeneralTriangle.formatDouble(Math.sqrt(3)/2) &&
 			testObject.getSideCendpoint1()[0] == 1.0 &&
 			testObject.getSideCendpoint1()[1] == 0.0 &&
 			testObject.getSideCendpoint2()[0] == 0.5 &&
-			testObject.getSideCendpoint2()[1] == Math.sqrt(3)/2 &&
+			testObject.getSideCendpoint2()[1] == GeneralTriangle.formatDouble(Math.sqrt(3)/2) &&
 			(testObject.getSideAlength() == 1.0 || testObject.getSideAlength() == 0.9999999999999999) &&
 			(testObject.getSideBlength() == 1.0 || testObject.getSideBlength() == 0.9999999999999999) &&
 			(testObject.getSideClength() == 1.0 || testObject.getSideBlength() == 0.9999999999999999) &&
 			testObject.getAngleA() == Math.PI / 3 &&
 			testObject.getAngleB() == Math.PI / 3 &&
 			testObject.getAngleC() == Math.PI / 3 &&
-			testObject.getTriangleType().equals("equilateral") &&
+			testObject.getTriangleTypeBySide().equals("equilateral") &&
 			testObject.getAngleType().equals("radians")
 		) {
 			return true;
@@ -41,10 +41,40 @@ public class TriangleTests {
 
 	// public static boolean calculatesExpectedSideLength() {}
 
-	// public static boolean threeSideLengthsProvidedConstructorCreatesValidTriangle() {}
+	public static boolean threeSideLengthsProvidedConstructorCreatesValidTriangle() {
+		Triangle testObject1 = new Triangle();
+		// Triangle testObject2 = new Triangle(1.0, 0.9999999999999999, 0.9999999999999999);//1.0, 1.0);
+		Triangle testObject2 = new Triangle(1.0, 1.0, 1.0);
+
+		System.out.println(testObject2.getSideAlength());
+		System.out.println(testObject2.getSideBlength());
+		System.out.println(testObject2.getSideClength());
+		System.out.println(testObject2.getAngleC());
+		System.out.println(testObject1.getAngleC());
+		System.out.println(testObject2.getAngleB());
+		System.out.println(testObject2.getAngleA()); // rounding error
+		System.out.println(testObject1.getAngleA());
+		System.out.println(testObject2.getTriangleTypeBySide());
+
+
+		// System.out.println(testObject2);
+		// System.out.println(testObject2);
+		// System.out.println(testObject2);
+		// System.out.println(testObject2);
+
+		if(testObject1.equals(testObject2)) {
+			return true;
+		}
+
+		return false;
+	}
+
 	// public static boolean threeSideLengthsProvidedConstructorDoesNotCreateInvalidTriangle() {}
 
-	// public static boolean validatesThreeSideLengthsProvidedEquilateralTriangle() {}
+	// public static boolean validatesThreeSideLengthsProvidedEquilateralTriangle() {
+
+	// }
+
 	// public static boolean validatesThreeSideLengthsProvidedIsoscelesTriangle() {}
 	// ADD: Invalid one
 	// public static boolean validatesThreeSideLengthsProvidedScaleneTriangle() {}
@@ -61,5 +91,6 @@ public class TriangleTests {
 	// Test Runner
 	public static void main(String[] args) {
 		System.out.println("Creates default triangle constructor: " + defaultConstructorCreatesTriangle());
+		System.out.println("Creates equilateral triangle given three equal sides: " + threeSideLengthsProvidedConstructorCreatesValidTriangle());
 	}
 }
