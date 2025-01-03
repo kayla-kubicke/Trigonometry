@@ -3,6 +3,8 @@
 * for all Triangle objects.
 */
 
+import java.util.*;
+
 public interface GeneralTriangle {
 	// Type methods will contain logic to determine type.
 	// public String getType();
@@ -40,21 +42,27 @@ public interface GeneralTriangle {
 	// public double getArea();
 	// public double getPerimeter();
 	public static double formatDouble(double number) {
-		if(number == 0.9999999999999999) {
-			return 1.0;
+		double returnDouble = Math.round(number * Math.pow(10, 5)) / Math.pow(10, 5);
+		String returnDoubleString = Double.toString(returnDouble);
+
+		int returnDoubleStringLength = returnDoubleString.length() - 1;
+
+		// Checks if number has a decimal and the last digit is nine.
+		if (returnDoubleString.contains(".") && returnDoubleString.charAt(returnDoubleStringLength) == '9') {
+			int i = returnDoubleStringLength;
+			int nineCount = 0;
+			while(returnDoubleString.charAt(i) == '9') {
+				i--;
+				nineCount++;
+			}
+
+			int place = (returnDoubleStringLength) - nineCount;
+
+			// Rounds up to next non-nine digit.
+			return Math.round(returnDouble * Math.pow(10, place)) / Math.pow(10, place);
 		}
 
-		// REMOVE
-		// FIX: Remove if above and add decimal 9 repeating round.
-		// double returnDouble = Math.round(number * Math.pow(10, 5)) / Math.pow(10, 5);
-
-		// double rename = returnDouble / 0.000001;
-		// double temp = rename % 100;
-
-		// while((rename / 10) % 10 == 9.0) {}
-		// REMOVE
-
-		return Math.round(number * Math.pow(10, 5)) / Math.pow(10, 5); // UPDATE
+		return returnDouble;
 	}
 	// public String determineTriangleType(double sideAlength, double sideBlength, double sideClength);
 
@@ -63,6 +71,7 @@ public interface GeneralTriangle {
 
 	//
 	// Get Methods
+	public double getHeight();
 	public double[] getSideAendpoint1();
 	public double[] getSideAendpoint2();
 	public double[] getSideBendpoint1();

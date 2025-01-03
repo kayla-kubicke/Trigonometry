@@ -280,6 +280,10 @@ public class Triangle implements GeneralTriangle {
 	// START: Get Methods
 	//
 
+	public double getHeight() {
+		return this.height;
+	}
+
 	public double[] getSideAendpoint1() {
 		return this.sideAendpoint1;
 	}
